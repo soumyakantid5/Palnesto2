@@ -1,20 +1,14 @@
 const itineraryModel=require("../models/itineryModel")
-
+const axios = require("axios");
 
 const create = async(req,res)=>{
     try {
-        const itinerary = new Itinerary({
-            destination,
-            travelDates,
-            activities,
-            accommodations
-        });
+        //const { destination, travelDates, activities, accommodations } = req.body;
 
-        // save the itinerary to the database
-        itinerary.save( (err, itinerary) => {
-            if (err) return res.status(500).json(err);
-            else return res.status(200).json(itinerary);
-        });
+        // let result = axios.get(`https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=${req.body.destination}`);
+        
+       let data = await itineraryModel.create(req.body)
+        return res.status(201).send({ Status: 'Success', 'Details': data });
         } 
         catch (error) {
             res.status(500).send({ Status: 'Failed', Message: error.message });
